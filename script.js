@@ -4,46 +4,42 @@ function computerPlay() {
     return (options[randomInt]);
 }
 
-function playerSelection(){
-    let playerChoice = prompt("Choose ROCK, PAPER, or SCISSORS: ").toUpperCase();
-    const eligibleResults = ["ROCK" , "PAPER", "SCISSORS"];
-    if (eligibleResults.includes(playerChoice.toUpperCase())){
-        return(playerChoice);
-    }
-    else{
-        return("Player input error; try again")
-    }
-}
-
 function playRound(playerSelection, computerSelection) {
     if (playerSelection === computerSelection) {
         return "Tie! Try again";
-    }
-    else if
-        (
+    } else if (
         playerSelection === "PAPER" && computerSelection === "ROCK" ||
         playerSelection === "SCISSORS" && computerSelection === "PAPER" ||
         playerSelection === "ROCK" && computerSelection === "SCISSORS"
-    ){
-        return(`${playerSelection} beats ${computerSelection}; You win!`);
-    }
-    else if
-    (
+    ) {
+        playerScore += 1;
+        return (`${playerSelection} beats ${computerSelection}; You win!`);
+    } else if (
         computerSelection === "PAPER" && playerSelection === "ROCK" ||
         computerSelection === "SCISSORS" && playerSelection === "PAPER" ||
         computerSelection === "ROCK" && playerSelection === "SCISSORS"
-    ){
-        return(`${computerSelection} beats ${playerSelection}; You lose!`);
-    }
-    else{
-        return(playerSelection);
-    }
-}
-
-function game(){
-    for (let i = 0; i < 5; i++){
-        alert(playRound(playerSelection(), computerPlay()));
+    ) {
+        computerScore += 1;
+        return (`${computerSelection} beats ${playerSelection}; You lose!`);
+    } else {
+        return (playerSelection);
     }
 }
 
-game();
+const btn = document.querySelectorAll('.option');
+const body = document.querySelector('body');
+const displayDiv = document.createElement('div');
+
+let results;
+let playerScore = 0;
+let computerScore = 0;
+
+btn.forEach(btn => {
+    btn.addEventListener('click', () => {
+        results = playRound(btn.innerHTML.toUpperCase(), computerPlay());
+        displayDiv.textContent = results;
+        body.appendChild(displayDiv);
+        document.querySelector('.playerScore').textContent = `Your Score: ${playerScore}`
+        document.querySelector('.computerScore').textContent = `Computer Score: ${computerScore}`
+    })
+})
